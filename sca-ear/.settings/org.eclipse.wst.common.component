@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="sca-ear">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="sca-ejb.jar" deploy-path="/" handle="module:/resource/sca-ejb/sca-ejb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sca-ejbClient.jar" deploy-path="/" handle="module:/resource/sca-ejbClient/sca-ejbClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="usuario-ejbClient.jar" deploy-path="/lib" handle="module:/resource/usuario-ejbClient/usuario-ejbClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="pessoa-ejbClient.jar" deploy-path="/lib" handle="module:/resource/pessoa-ejbClient/pessoa-ejbClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
