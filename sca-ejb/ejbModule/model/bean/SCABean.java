@@ -1,5 +1,7 @@
 package model.bean;
 
+import java.util.Hashtable;
+
 import javax.ejb.Stateless;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,18 +23,22 @@ public class SCABean implements SCABeanRemote, SCABeanLocal {
     }
     
     public void criarUsuario(Long id, String nome, String login, String senha) {
-    		Context ctx = null;
+    		Context ctxPessoaBean = null;
+    		Context ctxUsuarioBean = null;
     		PessoaBeanRemote pessoaBean = null;
     		UsuarioBeanRemote usuarioBean = null;
     		Pessoa p = null;
     		Usuario u = null;
 
     		try {
-    			ctx = new InitialContext();
+    			Hashtable htPessoaBean = new Hashtable();
+    			htPessoaBean.put(Context.INITIAL_CONTEXT_FACTORY, "weblogic.jndi.WLInitialContextFactory");
+    			htPessoaBean.put(Context.PROVIDER_URL, "t3://localhost:7003");
+    			ctxPessoaBean = new InitialContext(htPessoaBean);
     			// Use the context in your program
     		
     		
-    			pessoaBean = (PessoaBeanRemote) ctx.lookup("pessoa-ear-pessoa-ejb-PessoaBean#model.bean.PessoaBeanRemote");
+    			pessoaBean = (PessoaBeanRemote) ctxPessoaBean.lookup("pessoa-ear-pessoa-ejb-PessoaBean#model.bean.PessoaBeanRemote");
     			
     			p = pessoaBean.getPessoaFindByPrimaryKey(id);
     			if (p != null) {
@@ -44,7 +50,12 @@ public class SCABean implements SCABeanRemote, SCABeanLocal {
     			p.setNome(nome);
     			pessoaBean.persistPessoa(p);
     			
-    			usuarioBean = (UsuarioBeanRemote) ctx.lookup("usuario-ear-usuario-ejb-UsuarioBean#model.bean.UsuarioBeanRemote");
+    			Hashtable htUsuarioBean = new Hashtable();
+    			htUsuarioBean.put(Context.INITIAL_CONTEXT_FACTORY, "weblogic.jndi.WLInitialContextFactory");
+    			htUsuarioBean.put(Context.PROVIDER_URL, "t3://localhost:7004");
+    			ctxUsuarioBean = new InitialContext(htUsuarioBean);
+    			
+    			usuarioBean = (UsuarioBeanRemote) ctxUsuarioBean.lookup("usuario-ear-usuario-ejb-UsuarioBean#model.bean.UsuarioBeanRemote");
     			u = new Usuario();
     			u.setId(id);
     			u.setLogin(login);
@@ -56,7 +67,8 @@ public class SCABean implements SCABeanRemote, SCABeanLocal {
     			e.printStackTrace();
     		} finally {
     			try {
-    				ctx.close();
+    				ctxPessoaBean.close();
+    				ctxUsuarioBean.close();
     			} catch (Exception e) {
     				// a failure occurred
     				e.printStackTrace();
