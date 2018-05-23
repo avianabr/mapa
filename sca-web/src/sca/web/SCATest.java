@@ -14,7 +14,7 @@ import model.bean.CriarUsuarioException;
 import model.bean.SCABeanLocal;
 
 /**
- * Servlet implementation class SCATest to teste access to EJB SCA
+ * Servlet implementation class SCATest to teste access to EJB SCA Local
  */
 public class SCATest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
